@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>555</width>
-    <height>491</height>
+    <width>620</width>
+    <height>489</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -110,14 +110,38 @@
         </widget>
        </item>
        <item>
-        <widget class="QToolButton" name="tbFilter">
-         <property name="text">
-          <string>Filter Empty Days and Weekends</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-        </widget>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="QToolButton" name="tbFilter">
+           <property name="text">
+            <string>Filter Empty Days and Weekends</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="tbRefreshMonth">
+           <property name="text">
+            <string>Refresh</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -163,7 +187,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>555</width>
+     <width>620</width>
      <height>21</height>
     </rect>
    </property>

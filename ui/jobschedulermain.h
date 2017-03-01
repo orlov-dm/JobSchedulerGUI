@@ -17,7 +17,7 @@ class JobSchedulerMain : public QMainWindow
 
 public:
     explicit JobSchedulerMain(QWidget *parent = 0);
-    ~JobSchedulerMain();
+    virtual ~JobSchedulerMain();
 
 protected:
     void setDate(const QDate &date);
@@ -30,6 +30,7 @@ protected slots:
 
 private slots:
     void on_tbFilter_clicked(bool checked);
+    void on_tbRefreshMonth_clicked();
 
 private:
     Ui::JobSchedulerMain *ui;

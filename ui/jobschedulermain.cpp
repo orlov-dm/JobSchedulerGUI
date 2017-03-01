@@ -110,3 +110,8 @@ void JobSchedulerMain::on_tbFilter_clicked(bool checked)
         ui->table->setModel(m_scheduleModel);
     }
 }
+
+void JobSchedulerMain::on_tbRefreshMonth_clicked()
+{
+    loadMonth();
+}
