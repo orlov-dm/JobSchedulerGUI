@@ -77,7 +77,7 @@ void JobSchedulerMain::loadMonth()
         auto logOff = WindowsEventParser::getInstance().getLogOffTimeByDate(now);
         if(logOn || logOff)
             times.append({QDateTime::fromTime_t(logOn),QDateTime::fromTime_t(logOff)});
-        else if((dt.date().dayOfWeek() >= 1 && dt.date().dayOfWeek() < 6) && dt.date() <= m_currentDate)
+        else if(dt.date().dayOfWeek() >= 1 && dt.date().dayOfWeek() < 6)
         {
             dt.setTime(QTime(0,0));
             times.append({dt, dt});
