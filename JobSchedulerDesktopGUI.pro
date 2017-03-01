@@ -16,13 +16,21 @@ SOURCES += main.cpp\
     WindowsEventParser/common.cpp \
     WindowsEventParser/windowseventparser.cpp \    
     core/schedulemodel.cpp \
-    ui/jobschedulermain.cpp
+    ui/jobschedulermain.cpp \
+    core/schedulercommon.cpp
 
 HEADERS  += WindowsEventParser/common.h \
     WindowsEventParser/windowseventparser.h \    
     core/schedulemodel.h \
-    ui/jobschedulermain.h
+    ui/jobschedulermain.h \
+    core/schedulercommon.h
 
 FORMS    += ui/jobschedulermain.ui
 
 LIBS += -lWevtapi
+
+#DISTFILES += \
+#    holidays.json
+
+RESOURCES += \
+    main.qrc

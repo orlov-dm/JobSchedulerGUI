@@ -28,6 +28,9 @@ protected slots:
     void nextMonth();
     void previousMonth();
 
+private slots:
+    void on_tbFilter_clicked(bool checked);
+
 private:
     Ui::JobSchedulerMain *ui;
 
