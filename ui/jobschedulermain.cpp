@@ -33,8 +33,8 @@ JobSchedulerMain::~JobSchedulerMain()
 
 void JobSchedulerMain::setDate(const QDate &date)
 {
-    ui->leMonthYear->setText(date.toString("MMMM yyyy"));
-    m_currentDate = date;
+    ui->leMonthYear->setText(date.toString("MMMM yyyy"));    
+    m_currentDate.setDate(date.year(), date.month(), 1);
 
     //Disable Next if it's current month
     if(m_currentDate.addMonths(1) > QDate::currentDate())
@@ -65,21 +65,53 @@ void JobSchedulerMain::loadMonth()
     QVector<QPair<QDateTime, QDateTime>> times;
     QDateTime dt;
     auto today = QDate::currentDate();
+    auto dtFrom = QDateTime(QDate(m_currentDate), QTime(0,0));
+    auto dtTo = dtFrom.addMonths(1);
+    auto eventInfos = WindowsEventParser::getInstance().getLogTimesByDate(dtFrom.toTime_t(), dtTo.toTime_t());
+    auto *logOns = &eventInfos.first;
+    auto *logOffs = &eventInfos.second;
+    time_t logOn, logOff;
+    bool fillWithEmpty;
     for(int i = 1; i <= m_currentDate.daysInMonth(); ++i)
-    {
+    {                
+        fillWithEmpty = true;
         dt.setDate(QDate(m_currentDate.year(),m_currentDate.month(),i));
+        dt.setTime(QTime(0,0));
+        logOn = logOff = dt.toTime_t();
         if(dt.date() > today) {
             //Don't try to load future dates
             break;
         }
-        auto now = dt.toTime_t();
-        auto logOn = WindowsEventParser::getInstance().getLogOnTimeByDate(now);
-        auto logOff = WindowsEventParser::getInstance().getLogOffTimeByDate(now);
-        if(logOn || logOff)
-            times.append({QDateTime::fromTime_t(logOn),QDateTime::fromTime_t(logOff)});
-        else if(dt.date().dayOfWeek() >= 1 && dt.date().dayOfWeek() < 6)
+        auto currentDay = dt.toTime_t();
+        if(logOns->size() || logOffs->size())
         {
-            dt.setTime(QTime(0,0));
+            auto logOnIt = logOns->find(currentDay);
+            if(logOnIt != logOns->end())
+            {
+                logOn = logOnIt->second;
+            }
+            auto logOffIt = logOffs->find(currentDay);
+            if(logOffIt != logOffs->end())
+            {
+                logOff = logOffIt->second;
+            }
+            if(logOn || logOff)
+            {
+                times.append({QDateTime::fromTime_t(logOn),QDateTime::fromTime_t(logOff)});
+                fillWithEmpty = false;
+            }
+        }
+
+        if(fillWithEmpty)
+        {
+            if(!(dt.date().dayOfWeek() >= 1 && dt.date().dayOfWeek() < 6))
+            {
+                fillWithEmpty = false;
+            }
+        }
+
+        if(fillWithEmpty)
+        {
             times.append({dt, dt});
         }
     }
